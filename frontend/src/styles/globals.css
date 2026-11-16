@@ -1,0 +1,89 @@
+/* Tailwind CSS v4 must come first, then HeroUI v3 styles. */
+@import "tailwindcss";
+@import "@heroui/styles";
+
+/*
+ * DriveThrough brand tokens (design.md §3, §14) mapped onto HeroUI's semantic variables.
+ * Yellow is the action colour (accent), near-black anchors text and structure.
+ */
+:root,
+[data-theme="light"] {
+  --font-sans: "Manrope", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* Brand */
+  --brand-yellow: oklch(0.8442 0.1722 84.93); /* #FFC107 */
+  --brand-yellow-hover: oklch(0.7762 0.1592 84.53); /* #E5AC00 */
+  --brand-yellow-soft: oklch(0.9658 0.0531 94.43); /* #FFF4CC */
+  --brand-black: oklch(0.1496 0 0); /* #0B0B0B */
+  --brand-black-soft: oklch(0.2046 0 0); /* #171717 */
+
+  /* HeroUI semantic mapping */
+  --accent: var(--brand-yellow);
+  --accent-foreground: var(--brand-black);
+  --focus: var(--brand-yellow-hover);
+
+  --background: oklch(0.9816 0.0017 247.84); /* #F8F9FA */
+  --foreground: var(--brand-black-soft);
+  --surface: oklch(1 0 0);
+  --surface-secondary: oklch(0.9632 0.0034 247.86); /* #F1F3F5 */
+  --muted: oklch(0.551 0.0234 264.36); /* #6B7280 */
+  --border: oklch(0.9276 0.0058 264.53); /* #E5E7EB */
+  --separator: oklch(0.9276 0.0058 264.53);
+
+  --success: oklch(0.6959 0.1491 162.48); /* #10B981 */
+  --warning: oklch(0.7686 0.1647 70.08); /* #F59E0B */
+  --danger: oklch(0.6368 0.2078 25.33); /* #EF4444 */
+
+  --field-background: oklch(1 0 0);
+  --field-border: var(--border);
+  --field-border-width: 1px;
+
+  --radius: 0.4rem; /* field radius = 1.5x ≈ 10px (radius-md) */
+}
+
+@theme inline {
+  --font-sans: "Manrope", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --color-brand-yellow: var(--brand-yellow);
+  --color-brand-yellow-hover: var(--brand-yellow-hover);
+  --color-brand-yellow-soft: var(--brand-yellow-soft);
+  --color-brand-black: var(--brand-black);
+  --color-brand-black-soft: var(--brand-black-soft);
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--background);
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* design.md §7 buttons: primary = yellow/black (accent), secondary = black/white. */
+.button--secondary {
+  --button-bg: var(--brand-black);
+  --button-bg-hover: var(--brand-black-soft);
+  --button-bg-pressed: var(--brand-black-soft);
+  --button-fg: oklch(1 0 0);
+}
+.button--primary {
+  --button-bg-hover: var(--brand-yellow-hover);
+  --button-bg-pressed: var(--brand-yellow-hover);
+}
