@@ -8,6 +8,9 @@ import { generalLimiter } from './common/middleware/rate-limit.js';
 import { authRouter } from './modules/auth/auth.routes.js';
 import { consumersRouter } from './modules/consumers/consumers.routes.js';
 import { driversRouter } from './modules/drivers/drivers.routes.js';
+import { locationsRouter, routesRouter } from './modules/maps/maps.routes.js';
+import { referenceRouter } from './modules/reference/reference.routes.js';
+import { searchRouter } from './modules/search/search.routes.js';
 
 export function createApp() {
   const app = express();
@@ -40,6 +43,10 @@ export function createApp() {
   v1.use('/auth', authRouter);
   v1.use('/consumers', consumersRouter);
   v1.use('/drivers', driversRouter);
+  v1.use('/reference', referenceRouter);
+  v1.use('/locations', locationsRouter);
+  v1.use('/routes', routesRouter);
+  v1.use('/search', searchRouter);
   app.use('/api/v1', v1);
 
   app.use(notFoundHandler);

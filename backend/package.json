@@ -12,7 +12,9 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "test": "tsx --test test/*.test.ts",
+    "db:seed:dev-drivers": "tsx src/scripts/seed-dev-drivers.ts"
   },
   "dependencies": {
     "@node-rs/argon2": "^2.2.2",

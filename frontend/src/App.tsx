@@ -9,7 +9,9 @@ import { VerifyPage } from './features/auth/VerifyPage';
 import { ConsumerHomePage } from './features/consumer/ConsumerHomePage';
 import { ConsumerOnboardingPage } from './features/consumer/ConsumerOnboardingPage';
 import { DriverOnboardingPage } from './features/driver/DriverOnboardingPage';
+import { DriverSettingsPage } from './features/driver/DriverSettingsPage';
 import { DriverStatusPage } from './features/driver/DriverStatusPage';
+import { FindDriverPage } from './features/search/FindDriverPage';
 import { Logo } from './components/Logo';
 
 export default function App() {
@@ -28,8 +30,11 @@ export default function App() {
           <Route path="/onboarding/consumer" element={<RequireRole roles={['consumer']}><ConsumerOnboardingPage /></RequireRole>} />
           <Route path="/app" element={<RequireRole roles={['consumer', 'admin', 'super_admin']}><ConsumerHomePage /></RequireRole>} />
 
+          <Route path="/trips/new" element={<RequireRole roles={['consumer']}><FindDriverPage /></RequireRole>} />
+
           <Route path="/onboarding/driver" element={<RequireRole roles={['driver']}><DriverOnboardingPage /></RequireRole>} />
           <Route path="/driver" element={<RequireRole roles={['driver']}><DriverStatusPage /></RequireRole>} />
+          <Route path="/driver/settings" element={<RequireRole roles={['driver']}><DriverSettingsPage /></RequireRole>} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>

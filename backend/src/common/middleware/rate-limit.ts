@@ -32,3 +32,24 @@ export const authLimiters = {
 };
 
 export const generalLimiter = make(1, 120);
+
+/**
+ * Per signed-in user limits for endpoints that spend third-party quota (maps) or are expensive (search).
+ * Must run after requireAuth.
+ */
+const byUser = (windowMinutes: number, limit: number) =>
+  rateLimit({
+    windowMs: windowMinutes * 60_000,
+    limit,
+    standardHeaders: 'draft-8',
+    legacyHeaders: false,
+    message: { error: { code: 'RATE_LIMITED', message: 'Too many requests. Please wait a moment and try again.' } },
+    keyGenerator: (req) => `user:${req.user?.id ?? ipKeyGenerator(req.ip ?? '')}`,
+  });
+
+export const mapsLimiters = {
+  suggestions: byUser(1, 60),
+  estimate: byUser(15, 40),
+  staticMap: byUser(15, 40),
+  search: byUser(15, 60),
+};

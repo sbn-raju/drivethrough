@@ -26,6 +26,30 @@ const envSchema = z.object({
   SUPABASE_URL: z.string().url().optional().or(z.literal('').transform(() => undefined)),
   SUPABASE_SERVICE_ROLE_KEY: z.string().optional().or(z.literal('').transform(() => undefined)),
   SUPABASE_KYC_BUCKET: z.string().default('driver-documents'),
+
+  // Feature 05 — Uber Maps API (places, ETA, static maps). OAuth client credentials; server-side only.
+  // The client secret must never reach the browser — all map calls go through this API.
+  UBER_CLIENT_ID: z.string().optional().or(z.literal('').transform(() => undefined)),
+  UBER_CLIENT_SECRET: z.string().optional().or(z.literal('').transform(() => undefined)),
+  UBER_API_BASE_URL: z.string().url().default('https://api.uber.com'),
+  UBER_AUTH_URL: z.string().url().default('https://auth.uber.com/oauth/v2/token'),
+  /** Value for the `X-Uber-Origin` header Uber requires on ETA requests (identifies the use case). */
+  UBER_ETA_ORIGIN: z.string().default('DriveThrough trip estimate'),
+  MAPS_TIMEOUT_MS: z.coerce.number().int().positive().default(8000),
+  ROUTE_ESTIMATE_TTL_MINUTES: z.coerce.number().int().positive().default(30),
+
+  // Feature 04 / 06 — marketplace rules. Admin-managed configuration arrives with Feature 12.
+  RATE_HOURLY_MIN_INR: z.coerce.number().int().positive().default(100),
+  RATE_HOURLY_MAX_INR: z.coerce.number().int().positive().default(2000),
+  RATE_MIN_HOURS_MIN: z.coerce.number().int().positive().default(1),
+  RATE_MIN_HOURS_MAX: z.coerce.number().int().positive().default(12),
+  PICKUP_BUFFER_MINUTES: z.coerce.number().int().min(0).default(60),
+  TURNAROUND_BUFFER_MINUTES: z.coerce.number().int().min(0).default(60),
+  SEARCH_MIN_LEAD_MINUTES: z.coerce.number().int().min(0).default(120),
+  SEARCH_MAX_ADVANCE_DAYS: z.coerce.number().int().positive().default(60),
+  ROUND_TRIP_MAX_DAYS: z.coerce.number().int().positive().default(7),
+  /** Market time zone offset in minutes. India (IST) is a fixed UTC+05:30 with no daylight saving. */
+  MARKET_UTC_OFFSET_MINUTES: z.coerce.number().int().default(330),
 });
 
 const parsed = envSchema.safeParse(process.env);
