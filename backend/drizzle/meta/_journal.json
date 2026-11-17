@@ -8,6 +8,13 @@
       "when": 1794852950165,
       "tag": "0000_init",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1794930266181,
+      "tag": "0001_feature_05_06_maps_search",
+      "breakpoints": true
     }
   ]
 }

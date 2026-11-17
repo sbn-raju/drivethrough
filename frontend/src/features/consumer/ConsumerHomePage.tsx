@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router';
 import { Car, MapPin } from 'lucide-react';
 import { AccountCard } from '../../components/AccountCard';
 import { AppShell } from '../../components/AppShell';
@@ -28,7 +29,7 @@ export function ConsumerHomePage() {
       <div className="flex flex-col gap-6">
         <div>
           <h1 className="text-[28px] leading-tight font-bold text-brand-black sm:text-4xl">{firstName ? `Hi, ${firstName}` : 'Welcome to DriveThrough'}</h1>
-          <p className="mt-2 text-muted">Your account is ready. Trip booking is coming next.</p>
+          <p className="mt-2 text-muted">Book a professional driver for your own car.</p>
         </div>
 
         <section className="flex flex-col gap-3 rounded-[14px] bg-brand-black p-6 text-white sm:flex-row sm:items-center sm:justify-between">
@@ -39,7 +40,13 @@ export function ConsumerHomePage() {
               <p className="text-sm text-white/70">Book a professional driver for a one-way or round-trip journey in your own car.</p>
             </div>
           </div>
-          <span className="shrink-0 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold">Coming soon</span>
+          {user?.role === 'consumer' ? (
+            <Link to="/trips/new" className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-[10px] bg-brand-yellow px-5 font-semibold text-brand-black hover:bg-brand-yellow-hover">
+              Find a driver
+            </Link>
+          ) : (
+            <span className="shrink-0 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold">Consumers only</span>
+          )}
         </section>
 
         {user?.role === 'consumer' && (

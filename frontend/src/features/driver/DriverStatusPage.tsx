@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Navigate, useNavigate } from 'react-router';
+import { Link, Navigate, useNavigate } from 'react-router';
 import { Chip } from '@heroui/react';
 import { CalendarClock, CircleCheck, FileText, Hourglass, IndianRupee, TriangleAlert } from 'lucide-react';
 import { AccountCard } from '../../components/AccountCard';
@@ -44,7 +44,7 @@ export function DriverStatusPage() {
       title: 'Driver verification in progress',
       body: "We're reviewing your licence and identity documents. We'll notify you when the review is complete. You won't appear in customer searches until you're verified.",
     },
-    approved: { icon: CircleCheck, title: 'Driver verification completed', body: 'You can now set your rates and availability to start receiving trip requests.' },
+    approved: { icon: CircleCheck, title: 'Driver verification completed', body: 'Set your states, rates and availability, then turn on "Available for bookings" to appear in customer searches.' },
     needs_resubmission: { icon: TriangleAlert, title: 'Action required', body: 'Some details need correcting. Review the notes below, update your profile and submit it again.' },
     rejected: { icon: TriangleAlert, title: 'Verification was not approved', body: 'Review the reason below. You can update your details and submit again, or contact support.' },
     expired: { icon: TriangleAlert, title: 'A document has expired', body: 'Upload a valid document to keep receiving trip requests.' },
@@ -99,15 +99,15 @@ export function DriverStatusPage() {
 
         <section className="grid gap-4 sm:grid-cols-2">
           {[
-            { icon: IndianRupee, title: 'Rates', text: 'Set your hourly, minimum and waiting rates.' },
-            { icon: CalendarClock, title: 'Availability', text: 'Choose when you can take trips.' },
+            { icon: IndianRupee, title: 'Rates and preferences', text: 'Hourly rate, minimum hours, trip and vehicle types, operating states.' },
+            { icon: CalendarClock, title: 'Availability', text: 'Your weekly hours and whether you are taking bookings.' },
           ].map(({ icon: Icon, title, text }) => (
-            <div key={title} className="rounded-[14px] border border-border bg-white p-5 opacity-80">
+            <Link key={title} to="/driver/settings" className="rounded-[14px] border border-border bg-white p-5 transition-colors hover:border-foreground/30 focus-visible:ring-3 focus-visible:ring-brand-yellow/50 focus-visible:outline-none">
               <Icon className="size-5" aria-hidden />
               <p className="mt-3 font-semibold">{title}</p>
               <p className="text-sm text-muted">{text}</p>
-              <p className="mt-3 text-xs font-semibold text-muted">{status === 'approved' ? 'Coming soon' : 'Available after verification'}</p>
-            </div>
+              <p className="mt-3 text-xs font-semibold">{status === 'approved' ? 'Manage' : 'Set up now — customers see you once verified'}</p>
+            </Link>
           ))}
         </section>
 

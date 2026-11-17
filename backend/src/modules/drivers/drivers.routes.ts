@@ -11,6 +11,7 @@ import { IDENTITY_DOCUMENT_TYPES, INDIAN_STATES, LICENCE_CLASSES, STATE_CODES } 
 import { encrypt } from '../../common/utils/crypto.js';
 import { audit } from '../../services/audit.js';
 import { storePrivateFile, upload } from '../../services/storage.js';
+import { registerDriverSettingsRoutes } from './driver-settings.routes.js';
 
 /** Feature 03 — driver onboarding. Drivers can never change their own approval status beyond submitting. */
 export const driversRouter = Router();
@@ -297,10 +298,14 @@ driversRouter.get('/me/documents', async (req, res) => {
 });
 
 // PUT /drivers/me/service-areas
+// Operating states are a work preference (Feature 04 PREF-001), not a KYC field, so approved drivers can
+// change them at any time. Only suspended drivers are blocked.
 driversRouter.put('/me/service-areas', async (req, res) => {
   const { stateCodes } = parse(serviceAreasSchema, req.body);
   const profile = await getProfile(req.user!.id);
-  assertEditable(profile);
+  if (profile.approvalStatus === 'suspended') {
+    throw conflict("You can't change operating states while your account is suspended.", 'PROFILE_LOCKED');
+  }
   const unique = [...new Set(stateCodes)];
 
   await db.transaction(async (tx) => {
@@ -345,3 +350,6 @@ driversRouter.post('/me/submit', async (req, res) => {
   await audit(req, 'driver.onboarding.submitted', { actorUserId: req.user!.id, entityType: 'driver', entityId: req.user!.id });
   res.json(await loadOnboarding(req.user!.id));
 });
+
+// Feature 04 (matching subset): preferences, rate card, availability, bookable status.
+registerDriverSettingsRoutes(driversRouter);

@@ -9,7 +9,7 @@ type Props = {
   error?: string;
   description?: ReactNode;
   placeholder?: string;
-  type?: 'text' | 'email' | 'tel' | 'date' | 'number';
+  type?: 'text' | 'email' | 'tel' | 'date' | 'time' | 'number';
   autoComplete?: string;
   inputMode?: 'text' | 'email' | 'tel' | 'numeric';
   isRequired?: boolean;
